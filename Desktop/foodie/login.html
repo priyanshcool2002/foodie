@@ -1,0 +1,136 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Foodie</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap & Custom CSS -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+                  url('img/background.png') center/cover no-repeat fixed;
+      min-height: 100vh;
+    }
+    .login-card {
+      background: #fff;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0px 8px 20px rgba(0,0,0,0.3);
+      animation: fadeIn 1s ease-in-out;
+    }
+    .login-header {
+      background: #1a5983;
+      color: #ffffff;
+      text-align: center;
+      padding: 20px;
+    }
+    .login-header h2 {
+      margin: 0;
+      font-weight: 700;
+    }
+    .form-control {
+      border-radius: 10px;
+    }
+    .btn-primary {
+      background: #000;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+    .btn-primary:hover {
+      background: #1a5983;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(-20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+  </style>
+</head>
+<body>
+<div class="container d-flex justify-content-center align-items-center" style="min-height:100vh;">
+  <div class="login-card" style="width:400px;">
+
+    <!-- Header with Logo -->
+    <div class="login-header">
+      <h2><i class="fas fa-utensils me-2"></i> Strive Store</h2>
+      <p class="mb-0">Tandoori Flavors, Just a Login Away!</p>
+    </div>
+
+    <!-- Login Form -->
+    <div class="p-4">
+      <h4 class="text-center mb-4">Sign In</h4>
+      <form id="loginForm">
+        <div class="mb-3">
+          <label class="form-label"><i class="fas fa-envelope me-2 text-primary"></i>Email</label>
+          <input type="email" class="form-control" id="loginEmail" placeholder="Enter your email" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label"><i class="fas fa-lock me-2 text-primary"></i>Password</label>
+          <input type="password" class="form-control" id="loginPassword" placeholder="Enter password" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100 py-2 mt-2">
+          <i class="fas fa-sign-in-alt me-2"></i>Login
+        </button>
+        <p class="mt-3 text-center">
+          Don't have an account?
+          <a href="sigup.html" class="fw-bold text-primary">Sign Up</a>
+        </p>
+      </form>
+    </div>
+  </div>
+</div>
+    <!-- JavaScript for Login -->
+    <script>
+      document.getElementById("loginForm").addEventListener("submit", function(e){
+        e.preventDefault();
+
+        let email = document.getElementById("loginEmail").value;
+        let password = document.getElementById("loginPassword").value;
+        let remember = document.getElementById("rememberMe").checked;
+
+        let storedEmail = localStorage.getItem("email");
+        let storedPass = localStorage.getItem("password");
+
+        if(email === storedEmail && password === storedPass){
+          localStorage.setItem("loggedIn", "true");
+
+          // Remember user
+          if(remember){
+            localStorage.setItem("rememberUser", email);
+          } else {
+            localStorage.removeItem("rememberUser");
+          }
+
+          window.location.href = "index.html";
+        } else {
+          alert("❌ Invalid email or password!");
+        }
+      });
+
+
+      window.onload = function(){
+        let remembered = localStorage.getItem("rememberUser");
+        if(remembered){
+          document.getElementById("loginEmail").value = remembered;
+          document.getElementById("rememberMe").checked = true;
+        }
+      }
+
+    </script>
+<div class="mb-3 form-check">
+  <input type="checkbox" class="form-check-input" id="rememberMe">
+  <label class="form-check-label" for="rememberMe">Remember Me</label>
+</div>

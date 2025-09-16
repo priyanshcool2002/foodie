@@ -1,126 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Foodie</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- Bootstrap -->
+<head>
+  <meta charset="utf-8">
+  <title>Foodie - Cart</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="css/style.css" rel="stylesheet">
-
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
-
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: url("img/paymantbackground.png") no-repeat center center fixed;
-      background-size: cover;
-    }
-    .checkout-card {
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0px 4px 15px rgba(0,0,0,0.2);
-      margin-top: 30px;
-    }
-    .success-message {
-      display: none;
-      text-align: center;
-      padding: 30px;
-      background: #e6ffee;
-      border: 2px solid #00b33c;
-      border-radius: 10px;
-      margin-top: 20px;
-    }
-    .success-message h2 {
-      color: #00b33c;
-      font-weight: 700;
-    }
-  </style>
 </head>
+
 <body>
+  <!-- Navbar (same as other pages, include dynamic cartCount) -->
 
-<div class="container py-5">
-  <div class="checkout-card">
-    <h2 class="mb-4"><i class="fas fa-credit-card me-2"></i> Checkout</h2>
-
-    <!-- Order Summary -->
-    <div class="mb-4">
-      <h4>Order Summary</h4>
-      <ul>
-        <li>Cheese Pizza - ₹199</li>
-        <li>Veg Momos - ₹99</li>
-        <li>Hyderabadi Biryani - ₹249</li>
-      </ul>
-      <h5>Total: <strong>₹547</strong></h5>
+  <div class="container my-5">
+    <h2 class="mb-4">Your Cart</h2>
+    <div id="cartContainer" class="table-responsive">
+      <!-- Cart items will be injected here -->
     </div>
-    <!-- Payment Form -->
-    <form id="paymentForm">
-      <h4 class="mb-3">Select Payment Method</h4>
-
-      <!-- UPI -->
-      <div class="form-check mb-2">
-        <input class="form-check-input" type="radio" name="paymentMethod" id="upi" value="UPI" required>
-        <label class="form-check-label" for="upi">
-          <i class="fas fa-mobile-alt me-2"></i> UPI (Google Pay, PhonePe, Paytm)
-        </label>
-      </div>
-
-      <!-- Card -->
-      <div class="form-check mb-2">
-        <input class="form-check-input" type="radio" name="paymentMethod" id="card" value="Card">
-        <label class="form-check-label" for="card">
-          <i class="fas fa-credit-card me-2"></i> Debit / Credit Card
-        </label>
-      </div>
-
-      <!-- Net Banking -->
-      <div class="form-check mb-2">
-        <input class="form-check-input" type="radio" name="paymentMethod" id="netbanking" value="Net Banking">
-        <label class="form-check-label" for="netbanking">
-          <i class="fas fa-university me-2"></i> Net Banking
-        </label>
-      </div>
-
-      <!-- Cash on Delivery -->
-      <div class="form-check mb-4">
-        <input class="form-check-input" type="radio" name="paymentMethod" id="cod" value="COD">
-        <label class="form-check-label" for="cod">
-          <i class="fas fa-money-bill-wave me-2"></i> Cash on Delivery
-        </label>
-      </div>
-      <!-- Proceed Button -->
-      <button type="submit" class="btn btn-success w-100">
-        Proceed to Pay
-      </button>
-    </form>
-
-    <!-- Success Message -->
-    <div class="success-message" id="successMessage">
-      <i class="fas fa-check-circle fa-3x mb-3"></i>
-      <h2>Payment Successful!</h2>
-      <p>Thank you for ordering from <strong>Foodie Ka Dhaba</strong>. <br>
-      Your delicious food is on the way 🚚🍴</p>
-      <a href="index.html" class="btn btn-primary mt-3">Back to Home</a>
+    <div class="text-end mt-3">
+      <h4>Total: ₹<span id="cartTotal">0</span></h4>
+      <button class="btn btn-primary mt-3" onclick="checkout()">Checkout</button>
     </div>
   </div>
-</div>
 
-<!-- Bootstrap JS -->
-<script src="js/bootstrap.bundle.min.js"></script>
+  <script>
+    function renderCart() {
+      const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+      const cartContainer = document.getElementById("cartContainer");
+      const cartTotalEl = document.getElementById("cartTotal");
 
-<script>
-  const paymentForm = document.getElementById("paymentForm");
-  const successMessage = document.getElementById("successMessage");
+      if (cartItems.length === 0) {
+        cartContainer.innerHTML = `<p>Your cart is empty.</p>`;
+        cartTotalEl.textContent = "0";
+        return;
+      }
 
-  paymentForm.addEventListener("submit", function(e) {
-    e.preventDefault(); // Page reload hone se rokta hai
-    paymentForm.style.display = "none"; // Form ko hide kar diya
-    successMessage.style.display = "block"; // Success message dikha diya
-  });
-</script>
+      let html = `<table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>Item</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Subtotal</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>`;
 
+      let total = 0;
+      cartItems.forEach((item, index) => {
+        const subtotal = item.price * item.quantity;
+        total += subtotal;
+
+        html += `<tr>
+                  <td>${item.name}</td>
+                  <td>₹${item.price}</td>
+                  <td>${item.quantity}</td>
+                  <td>₹${subtotal}</td>
+                  <td><button class="btn btn-danger btn-sm" onclick="removeItem(${index})">Remove</button></td>
+                </tr>`;
+      });
+
+      html += `</tbody></table>`;
+      cartContainer.innerHTML = html;
+      cartTotalEl.textContent = total;
+    }
+
+    function removeItem(index) {
+      let cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+      cartItems.splice(index, 1);
+      localStorage.setItem("cartItems", JSON.stringify(cartItems));
+      renderCart();
+      updateCartCount();
+    }
+
+    function checkout() {
+      alert("Thank you! Your order has been placed.");
+      localStorage.removeItem("cartItems");
+      renderCart();
+      updateCartCount();
+    }
+
+    function updateCartCount() {
+      const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+      const cartCount = document.getElementById('cartCount');
+      if (cartCount) {
+        cartCount.textContent = cartItems.reduce((total, item) => total + item.quantity, 0);
+      }
+    }
+
+    window.onload = function () {
+      renderCart();
+      updateCartCount();
+    }
+  </script>
 </body>
 </html>

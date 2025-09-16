@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Strive Store - Online Food Ordering</title>
+    <title>Foodie</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <!-- Google Fonts -->
@@ -41,7 +41,7 @@
             <div class="d-flex justify-content-between">
                 <div class="top-info ps-2">
                     <small class="me-3"><i class="fas fa-map-marker-alt me-2 text-light"></i> <a href="#" class="text-white">Delhi, India</a></small>
-                    <small class="me-3"><i class="fas fa-envelope me-2 text-light"></i><a href="#" class="text-white">support@foodieexpress.com</a></small>
+                    <small class="me-3"><i class="fas fa-envelope me-2 text-light"></i><a href="#" class="text-white">support@foodie.com</a></small>
                 </div>
                 <div class="top-link pe-2">
                     <a href="#" class="text-white"><small class="text-white mx-2 ">Privacy Policy</small>/</a>
@@ -52,7 +52,7 @@
         </div>
         <div class="container px-0">
             <nav class="navbar navbar-light bg-white navbar-expand-xl">
-                <a href="index.html" class="navbar-brand"><h1 class="text-primary display-6">Strive Store</h1></a>
+                <a href="index.html" class="navbar-brand"><h1 class="text-primary display-6">Foodie</h1></a>
                 <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                     <span class="fa fa-bars text-primary"></span>
                 </button>
@@ -67,10 +67,11 @@
                     <div class="d-flex m-3 me-0">
   <!-- Cart -->
   <a href="cart.html" class="position-relative me-4 my-auto">
-    <i class="fa fa-shopping-bag fa-2x"></i>
-    <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
-          style="top: -5px; left: 15px; height: 20px; min-width: 20px;">2</span>
-  </a>
+              <i class="fa fa-shopping-bag fa-2x"></i>
+              <span id="cartCount"
+                class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
+                style="top: -5px; left: 15px; height: 20px; min-width: 20px;">0</span>
+            </a>
 
   <!-- Profile Icon (Always Visible) -->
   <a href="profile.html" class="my-auto me-3">
@@ -145,6 +146,8 @@
                             <div class="carousel-item active rounded">
                                 <img src="img/nonveg.png" class="img-fluid w-100 rounded" alt="Non Veg Food">
                                 <a href="#" class="btn px-4 py-2 text-white rounded">Non-Veg</a>
+                                <button class="btn btn-primary"
+              onclick="addToCart('30% Off Biryani', 180, 'Paradise Biryani')">Grab Deal</button>
                             </div>
                             <div class="carousel-item rounded">
                                 <img src="img/veg.png" class="img-fluid w-100 rounded" alt="Veg Food">
@@ -224,9 +227,10 @@
                                                 <p>Hot & cheesy pizza loaded with fresh toppings.</p>
                                                 <div class="d-flex justify-content-between flex-lg-wrap">
                                                     <p class="text-dark fs-5 fw-bold mb-0">₹199</p>
-                                                    <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary">
+                                                    <button class="btn border border-secondary rounded-pill px-3 text-primary" 
+                                                            onclick="addToCart('Cheese Pizza', 199, 'Fast Food')">
                                                         <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
-                                                    </a>
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -245,9 +249,10 @@
                                                 <p>Authentic spicy biryani served with raita.</p>
                                                 <div class="d-flex justify-content-between flex-lg-wrap">
                                                     <p class="text-dark fs-5 fw-bold mb-0">₹249</p>
-                                                    <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary">
+                                                    <button class="btn border border-secondary rounded-pill px-3 text-primary" 
+                                                            onclick="addToCart('Hyderabadi Biryani', 249, 'Non-Veg')">
                                                         <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
-                                                    </a>
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -266,9 +271,10 @@
                                                 <p>Steamed dumplings with spicy chutney.</p>
                                                 <div class="d-flex justify-content-between flex-lg-wrap">
                                                     <p class="text-dark fs-5 fw-bold mb-0">₹99</p>
-                                                    <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary">
+                                                    <button class="btn border border-secondary rounded-pill px-3 text-primary" 
+                                                            onclick="addToCart('Veg Momos', 99, 'Veg')">
                                                         <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
-                                                    </a>
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -287,9 +293,10 @@
                                                 <p>Rich creamy chocolate ice cream scoop.</p>
                                                 <div class="d-flex justify-content-between flex-lg-wrap">
                                                     <p class="text-dark fs-5 fw-bold mb-0">₹120</p>
-                                                    <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary">
+                                                    <button class="btn border border-secondary rounded-pill px-3 text-primary" 
+                                                            onclick="addToCart('Chocolate Ice Cream', 120, 'Desserts')">
                                                         <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
-                                                    </a>
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -378,9 +385,10 @@
                                     <i class="fas fa-star"></i>
                                 </div>
                                 <h4 class="mb-3">₹149</h4>
-                                <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary">
+                                <button class="btn border border-secondary rounded-pill px-3 text-primary" 
+                                        onclick="addToCart('Chicken Burger', 149, 'Fast Food')">
                                     <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
-                                </a>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -403,9 +411,10 @@
                                     <i class="fas fa-star"></i>
                                 </div>
                                 <h4 class="mb-3">₹249</h4>
-                                <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary">
+                                <button class="btn border border-secondary rounded-pill px-3 text-primary" 
+                                        onclick="addToCart('Hyderabadi Biryani', 249, 'Non-Veg')">
                                     <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
-                                </a>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -428,9 +437,10 @@
                                     <i class="fas fa-star"></i>
                                 </div>
                                 <h4 class="mb-3">₹199</h4>
-                                <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary">
+                                <button class="btn border border-secondary rounded-pill px-3 text-primary" 
+                                        onclick="addToCart('Cheese Pizza', 199, 'Fast Food')">
                                     <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
-                                </a>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -495,7 +505,7 @@
             <!-- Testimonial 1 -->
             <div class="testimonial-item h-100 bg-light rounded p-4">
                 <div class="review-text mb-3">
-                    <p>“Best food delivery service! My pizza arrived hot and fresh within 20 minutes.”</p>
+                    <p>"Best food delivery service! My pizza arrived hot and fresh within 20 minutes."</p>
                 </div>
                 <hr>
                 <div class="d-flex align-items-center">
@@ -511,7 +521,7 @@
             <!-- Testimonial 2 -->
             <div class="testimonial-item h-100 bg-light rounded p-4">
                 <div class="review-text mb-3">
-                    <p>“Great discounts on biryani! Totally worth it. I always order from here.”</p>
+                    <p>"Great discounts on biryani! Totally worth it. I always order from here."</p>
                 </div>
                 <hr>
                 <div class="d-flex align-items-center">
@@ -568,6 +578,7 @@
                     </div>
                 </div>
             </div>
+            </div>
         </div>
         <div class="container-fluid copyright">
             <div class="container">
@@ -598,12 +609,68 @@
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
+    
+    <!-- Cart Functionality Script -->
     <script>
-  // Check if user is logged in
-  if(localStorage.getItem("loggedIn") !== "true"){
-    window.location.href = "login.html"; // redirect to login
-  }
-</script>
+        // Function to add items to cart
+        function addToCart(name, price, category) {
+            // Check if user is logged in
+            if(localStorage.getItem("loggedIn") !== "true"){
+                alert("Please login first to add items to cart");
+                window.location.href = "login.html";
+                return;
+            }
+            
+            let cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+            
+            // Check if item already exists in cart
+            const existingItemIndex = cartItems.findIndex(item => item.name === name);
+            
+            if (existingItemIndex !== -1) {
+                // If item exists, increase quantity
+                cartItems[existingItemIndex].quantity += 1;
+            } else {
+                // If item doesn't exist, add new item
+                cartItems.push({
+                    name: name,
+                    price: price,
+                    category: category,
+                    quantity: 1
+                });
+            }
+            
+            // Save to localStorage
+            localStorage.setItem("cartItems", JSON.stringify(cartItems));
+            
+            // Update cart count
+            updateCartCount();
+            
+            // Show success message
+            alert(`${name} added to cart!`);
+        }
+        
+        // Function to update cart count
+        function updateCartCount() {
+            const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+            const cartCount = document.getElementById('cartCount');
+            if (cartCount) {
+                const totalItems = cartItems.reduce((total, item) => total + item.quantity, 0);
+                cartCount.textContent = totalItems;
+            }
+        }
+        
+        // Check if user is logged in
+        if(localStorage.getItem("loggedIn") !== "true"){
+            window.location.href = "login.html"; // redirect to login
+        } else {
+            // Update cart count on page load
+            updateCartCount();
+            
+            // Show/Hide login/logout based on login status
+            document.getElementById("loginBtn").style.display = "none";
+            document.getElementById("logoutBtn").style.display = "block";
+        }
+    </script>
 
 </body>
 </html>
